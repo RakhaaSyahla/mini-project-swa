@@ -47,26 +47,31 @@
 
 <script>
     async function hitungBiaya() {
-        const jumlah = document.getElementById('jumlah').value;
-        const jenis = document.getElementById('jenis').value;
-        const outputDiv = document.getElementById('output');
-        
-        // !!! GANTI DENGAN URL FUNCTION KEY KAMU YANG TADI DISALIN DI LANGKAH SEBELUMNYA !!!
-        const baseApiUrl = "https://func-serverless-045-dvc6czf7c6axcua4.southeastasia-01.azurewebsites.net/api/HttpTrigger045"; 
-        
-        const fullUrl = `${baseApiUrl}&jumlah=${jumlah}&jenis=${jenis}`;
+    const jumlah = document.getElementById('jumlah').value;
+    const jenis = document.getElementById('jenis').value;
+    const outputDiv = document.getElementById('output');
+    
+    // 1. Alamat polosan API kamu (HANYA sampai nama fungsi saja, tanpa tanda ? atau &)
+    const baseApiUrl = "https://func-serverless-045-dvc6czf7c6axcua4.southeastasia-01.azurewebsites.net/api/HttpTrigger045"; 
+    
+    // 2. Potongan kode rahasia default (Function key) kamu dari Azure
+    // Salin teks acak yang panjang dari Azure setelah tulisan "?code="
+    const functionKey = "xqbPrOFK1hguqvsdpexhLYxiwP8tac1emuYn9biT0vXVAzFuRNzkNw=="; 
+    
+    // 3. Penggabungan URL yang sudah pasti aman dan bebas dari eror 404
+    const fullUrl = `${baseApiUrl}?code=${functionKey}&jumlah=${jumlah}&jenis=${jenis}`;
 
-        outputDiv.style.display = "block";
-        outputDiv.innerText = "Menghitung...";
+    outputDiv.style.display = "block";
+    outputDiv.innerText = "Menghitung...";
 
-        try {
-            const response = await fetch(fullUrl);
-            const data = await response.json();
-            outputDiv.innerText = JSON.stringify(data, null, 2);
-        } catch (error) {
-            outputDiv.innerText = "Gagal memanggil API. Pastikan CORS di Azure Function sudah diizinkan.";
-        }
+    try {
+        const response = await fetch(fullUrl);
+        const data = await response.json();
+        outputDiv.innerText = JSON.stringify(data, null, 2);
+    } catch (error) {
+        outputDiv.innerText = "Gagal memanggil API. Pastikan URL benar dan CORS di Azure Function sudah diizinkan.";
     }
+}
 </script>
 </body>
 </html>
